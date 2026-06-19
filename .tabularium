@@ -1,0 +1,50 @@
+{
+  "$schema": "https://registry.tabularis.dev/manifest.schema.json?kind=driver",
+  "name": "cloudflare-d1",
+  "version": "0.1.0",
+  "description": "Browse and manage Cloudflare D1 serverless SQLite databases from Tabularis.",
+  "category": "integration",
+  "kind": "driver",
+  "engine": "d1",
+  "paradigms": ["sql"],
+  "tags": ["cloudflare", "d1", "sqlite", "serverless", "database-driver"],
+  "license": "MIT",
+  "icon": "assets/icon.png",
+  "homepage": "https://github.com/josejorge/tabularis_cloudflare_d1_plugin",
+  "readme": "README.md",
+  "support": {
+    "issues_url": "https://github.com/josejorge/tabularis_cloudflare_d1_plugin/issues"
+  },
+  "min_runtime_version": "0.8.15",
+  "executable": "cloudflare-d1-plugin",
+  "is_builtin": false,
+  "color": "#F6821F",
+  "capabilities": {
+    "schemas": false,
+    "views": true,
+    "routines": false,
+    "triggers": false,
+    "file_based": false,
+    "folder_based": false,
+    "no_connection_required": false,
+    "connection_string": false,
+    "identifier_quote": "\"",
+    "alter_primary_key": false,
+    "alter_column": false,
+    "create_foreign_keys": true,
+    "manage_tables": true,
+    "readonly": false
+  },
+  "data_types": [
+    { "name": "INTEGER", "category": "numeric", "requires_length": false, "requires_precision": false },
+    { "name": "REAL", "category": "numeric", "requires_length": false, "requires_precision": false },
+    { "name": "NUMERIC", "category": "numeric", "requires_length": false, "requires_precision": false },
+    { "name": "TEXT", "category": "string", "requires_length": false, "requires_precision": false },
+    { "name": "BLOB", "category": "binary", "requires_length": false, "requires_precision": false },
+    { "name": "BOOLEAN", "category": "other", "requires_length": false, "requires_precision": false },
+    { "name": "DATE", "category": "date", "requires_length": false, "requires_precision": false },
+    { "name": "DATETIME", "category": "date", "requires_length": false, "requires_precision": false },
+    { "name": "TIMESTAMP", "category": "date", "requires_length": false, "requires_precision": false },
+    { "name": "JSON", "category": "json", "requires_length": false, "requires_precision": false }
+  ]
+}
