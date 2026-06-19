@@ -45,11 +45,11 @@ Restart Tabularis and the **Cloudflare D1** driver will appear in the connection
 
 ### Option B — Build from source
 
-Prerequisites: [Rust](https://rustup.rs) (stable)
+Prerequisites: [Rust](https://rustup.rs) (stable). On Windows, the build embeds the plugin icon into the `.exe` via `winres`, which requires `rc.exe` from the Windows SDK (already present if you have Visual Studio Build Tools installed).
 
 ```bash
-git clone https://github.com/josejorge/tabularis-cloudflare-d1-plugin
-cd tabularis-cloudflare-d1-plugin
+git clone https://github.com/josejorge/tabularis_cloudflare_d1_plugin
+cd tabularis_cloudflare_d1_plugin
 cargo build --release
 ```
 
@@ -85,6 +85,16 @@ When creating a new connection in Tabularis, select **Cloudflare D1** and fill i
 - **No DROP FOREIGN KEY** — Foreign keys are defined at `CREATE TABLE` time and cannot be dropped individually.
 - **No schemas** — D1 uses a flat single-schema model.
 - **No stored procedures** — D1/SQLite does not support them.
+
+---
+
+## Releasing
+
+Pushing a `v*` tag triggers `.github/workflows/release.yml`, which builds the `win-x64` and `linux-x64` binaries and attaches the packaged zips to a GitHub Release automatically.
+
+## Registry
+
+This plugin is listed on [Tabularium](https://registry.tabularis.dev) via the [`.tabularium`](.tabularium) manifest at the repo root. That file is separate from `manifest.json`: `manifest.json` ships inside the release zip and is read by Tabularis at runtime, while `.tabularium` lives in the repo and is read by the registry to list, validate, and surface the plugin.
 
 ---
 
