@@ -1,2 +1,10 @@
 /target/
 /releases/
+
+# --- added by security audit patch (2026-07-08) ---
+node_modules/
+.env
+.env.*
+.dev.vars
+.dev.vars.*
+.wrangler/
