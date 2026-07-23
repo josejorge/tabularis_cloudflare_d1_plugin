@@ -7,6 +7,8 @@ on:
 
 permissions:
   contents: write
+  attestations: write
+  id-token: write
 
 jobs:
   build:
@@ -40,9 +42,15 @@ jobs:
           mkdir -p "$stage"
           cp "target/${{ matrix.target }}/release/${{ matrix.bin }}" "$stage/"
           cp manifest.json "$stage/"
+          cp .tabularium "$stage/"
           zip_name="cloudflare-d1-${{ matrix.platform }}-${version}.zip"
-          zip -r "$zip_name" "$stage"
+          zip -r "$zip_name" "$stage" .tabularium
           echo "ZIP_NAME=$zip_name" >> "$GITHUB_ENV"
+
+      - name: Attest build provenance
+        uses: actions/attest-build-provenance@v2
+        with:
+          subject-path: ${{ env.ZIP_NAME }}
 
       - uses: softprops/action-gh-release@v2
         with:
