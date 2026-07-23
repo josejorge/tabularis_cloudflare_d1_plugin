@@ -39,13 +39,9 @@ jobs:
         shell: pwsh
         run: |
           $version = "${env:GITHUB_REF_NAME}" -replace '^v',''
-          $stage = "cloudflare-d1"
-          New-Item -ItemType Directory -Force -Path $stage | Out-Null
-          Copy-Item "target/${{ matrix.target }}/release/${{ matrix.bin }}" "$stage/"
-          Copy-Item manifest.json "$stage/"
-          Copy-Item .tabularium "$stage/"
+          Copy-Item "target/${{ matrix.target }}/release/${{ matrix.bin }}" .
           $zipName = "cloudflare-d1-${{ matrix.platform }}-$version.zip"
-          Compress-Archive -Path $stage, .tabularium -DestinationPath $zipName -Force
+          Compress-Archive -Path "${{ matrix.bin }}", manifest.json, .tabularium -DestinationPath $zipName -Force
           echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
 
       - name: Package (Unix)
@@ -53,13 +49,9 @@ jobs:
         shell: bash
         run: |
           version="${GITHUB_REF_NAME#v}"
-          stage="cloudflare-d1"
-          mkdir -p "$stage"
-          cp "target/${{ matrix.target }}/release/${{ matrix.bin }}" "$stage/"
-          cp manifest.json "$stage/"
-          cp .tabularium "$stage/"
+          cp "target/${{ matrix.target }}/release/${{ matrix.bin }}" .
           zip_name="cloudflare-d1-${{ matrix.platform }}-${version}.zip"
-          zip -r "$zip_name" "$stage" .tabularium
+          zip "$zip_name" "${{ matrix.bin }}" manifest.json .tabularium
           echo "ZIP_NAME=$zip_name" >> "$GITHUB_ENV"
 
       - name: Attest build provenance
