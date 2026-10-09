@@ -5,10 +5,15 @@ Author: Jose-Jorge HERNANDEZ
 Company: Parlee Conseiller, Inc.
 Date: 2026-10-09
 Last edit date: 2026-10-09
-Version: 1.1.0
+Version: 1.2.0
 -->
 
 # Changelog
+
+## 0.1.6 — 2026-10-09
+
+- Connection form now shows a help box (UI extension `ui/connection-help.js`, slot `connection-modal.extra_fields`) explaining that Username = Cloudflare Account ID, Password = API token ("D1 Edit"), Host/Port unused, with a link to create a token. Requires a Tabularis build with plugin UI extensions; older hosts simply don't show it.
+- Release zips now include the `ui/` folder.
 
 ## 0.1.5 — 2026-10-09
 

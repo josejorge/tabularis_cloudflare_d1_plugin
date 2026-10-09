@@ -38,6 +38,7 @@ The result should look like:
 plugins/
 └── cloudflare-d1/
     ├── .tabularium            (manifest.json is a legacy fallback)
+    ├── ui/connection-help.js
     └── cloudflare-d1-plugin   (or .exe on Windows)
 ```
 
