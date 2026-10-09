@@ -5,10 +5,14 @@ Author: Jose-Jorge HERNANDEZ
 Company: Parlee Conseiller, Inc.
 Date: 2026-10-09
 Last edit date: 2026-10-09
-Version: 1.0.0
+Version: 1.1.0
 -->
 
 # Changelog
+
+## 0.1.5 — 2026-10-09
+
+- macOS builds: release workflow now also builds `darwin-arm64` (Apple Silicon) and `darwin-x64` (Intel) and `registry.json` lists them. Binaries are unsigned and untested on real hardware (CI builds and unit-tests only).
 
 ## 0.1.4 — 2026-10-09
 

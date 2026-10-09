@@ -90,7 +90,7 @@ When creating a new connection in Tabularis, select **Cloudflare D1** and fill i
 
 ## Releasing
 
-Pushing a `v*` tag triggers `.github/workflows/release.yml`, which builds the `win-x64` and `linux-x64` binaries and attaches the packaged zips to a GitHub Release automatically.
+Pushing a `v*` tag triggers `.github/workflows/release.yml`, which builds the `win-x64`, `linux-x64`, `darwin-arm64` and `darwin-x64` binaries and attaches the packaged zips to a GitHub Release automatically.
 
 ## Registry
 
