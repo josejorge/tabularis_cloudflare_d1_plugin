@@ -1,3 +1,11 @@
+// File: error.rs
+// Description: Error type shared by all plugin handlers.
+// Author: Jose-Jorge HERNANDEZ
+// Company: Parlee Conseiller, Inc.
+// Date: 2026-06-15
+// Last edit date: 2026-10-09
+// Version: 1.1.0
+
 use std::fmt;
 
 #[derive(Debug)]
@@ -7,6 +15,8 @@ pub enum PluginError {
     Api(String),
     Parse(String),
     Client(String),
+    /// Unknown RPC method; mapped to JSON-RPC -32601 by the dispatcher.
+    MethodNotFound(String),
 }
 
 impl fmt::Display for PluginError {
@@ -17,6 +27,7 @@ impl fmt::Display for PluginError {
             PluginError::Api(m) => write!(f, "Cloudflare D1 API error: {}", m),
             PluginError::Parse(m) => write!(f, "Parse error: {}", m),
             PluginError::Client(m) => write!(f, "Client error: {}", m),
+            PluginError::MethodNotFound(m) => write!(f, "Method not found: {}", m),
         }
     }
 }

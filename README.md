@@ -37,7 +37,7 @@ The result should look like:
 ```
 plugins/
 └── cloudflare-d1/
-    ├── manifest.json
+    ├── .tabularium            (manifest.json is a legacy fallback)
     └── cloudflare-d1-plugin   (or .exe on Windows)
 ```
 

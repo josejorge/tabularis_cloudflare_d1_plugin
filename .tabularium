@@ -1,7 +1,8 @@
 {
   "$schema": "https://registry.tabularis.dev/manifest.schema.json?kind=driver",
-  "name": "cloudflare-d1",
-  "version": "0.1.3",
+  "id": "cloudflare-d1",
+  "name": "Cloudflare D1",
+  "version": "0.1.4",
   "description": "Browse and manage Cloudflare D1 serverless SQLite databases from Tabularis.",
   "category": "integration",
   "kind": "driver",
@@ -18,6 +19,7 @@
   "min_runtime_version": "0.8.15",
   "executable": "cloudflare-d1-plugin",
   "is_builtin": false,
+  "default_username": "",
   "color": "#F6821F",
   "capabilities": {
     "schemas": false,
@@ -33,7 +35,11 @@
     "alter_column": false,
     "create_foreign_keys": true,
     "manage_tables": true,
-    "readonly": false
+    "readonly": false,
+    "inline_pk": true,
+    "auto_increment_keyword": "",
+    "serial_type": "",
+    "sql_dialect": "sqlite"
   },
   "data_types": [
     { "name": "INTEGER", "category": "numeric", "requires_length": false, "requires_precision": false },

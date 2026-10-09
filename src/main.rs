@@ -1,3 +1,11 @@
+// File: main.rs
+// Description: Plugin entry point: reads JSON-RPC lines from stdin, dispatches to handlers, writes replies to stdout.
+// Author: Jose-Jorge HERNANDEZ
+// Company: Parlee Conseiller, Inc.
+// Date: 2026-06-15
+// Last edit date: 2026-10-09
+// Version: 1.1.0
+
 #![cfg_attr(target_os = "windows", windows_subsystem = "windows")]
 
 mod client;
@@ -35,7 +43,11 @@ fn main() {
             continue;
         }
 
-        let response = handle_line(trimmed);
+        // Notifications (no `id`) get no reply, per the JSON-RPC spec.
+        let response = match handle_line(trimmed) {
+            Some(r) => r,
+            None => continue,
+        };
 
         let mut serialised = serde_json::to_string(&response).unwrap_or_else(|_| {
             r#"{"jsonrpc":"2.0","error":{"code":-32603,"message":"serialisation error"},"id":null}"#
@@ -51,21 +63,29 @@ fn main() {
     }
 }
 
-fn handle_line(line: &str) -> Value {
+/// Handle one request line. Returns `None` for notifications (no `id`), which
+/// must not be answered (the host sends `cancel` this way after a timeout).
+fn handle_line(line: &str) -> Option<Value> {
     let req: rpc::RpcRequest = match serde_json::from_str(line) {
         Ok(r) => r,
         Err(e) => {
-            return rpc::err(Value::Null, -32700, format!("Parse error: {}", e));
+            return Some(rpc::err(Value::Null, -32700, format!("Parse error: {}", e)));
         }
     };
 
-    let id = req.id.clone();
+    // No id => notification. Requests are processed strictly one at a time, so
+    // a `cancel` can only arrive after its target finished; ignoring it is the
+    // spec-compliant behaviour for an unknown/finished id.
+    let id = req.id.clone()?;
     let params = &req.params;
 
-    match dispatch(&req.method, params) {
+    Some(match dispatch(&req.method, params) {
         Ok(v) => ok(id, v),
+        Err(error::PluginError::MethodNotFound(m)) => {
+            rpc::err(id, rpc::METHOD_NOT_FOUND, format!("Method not found: {}", m))
+        }
         Err(e) => internal_err(id, e.to_string()),
-    }
+    })
 }
 
 fn dispatch(method: &str, params: &Value) -> Result<Value, error::PluginError> {
@@ -120,9 +140,30 @@ fn dispatch(method: &str, params: &Value) -> Result<Value, error::PluginError> {
         "get_create_index_sql" => ddl::get_create_index_sql(params),
         "get_create_foreign_key_sql" => ddl::get_create_foreign_key_sql(params),
 
-        unknown => Err(error::PluginError::Api(format!(
-            "Method '{}' not implemented",
-            unknown
-        ))),
+        unknown => Err(error::PluginError::MethodNotFound(unknown.to_string())),
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn unknown_method_returns_32601() {
+        let r = handle_line(r#"{"jsonrpc":"2.0","method":"nope","params":{},"id":1}"#).unwrap();
+        assert_eq!(r["error"]["code"], -32601);
+        assert!(r["error"]["message"].as_str().unwrap().contains("Method not found"));
+        assert_eq!(r["id"], 1);
+    }
+
+    #[test]
+    fn cancel_notification_gets_no_reply() {
+        assert!(handle_line(r#"{"jsonrpc":"2.0","method":"cancel","params":{"id":1}}"#).is_none());
+    }
+
+    #[test]
+    fn malformed_json_returns_parse_error() {
+        let r = handle_line("{not json").unwrap();
+        assert_eq!(r["error"]["code"], -32700);
     }
 }
