@@ -5,10 +5,14 @@ Author: Jose-Jorge HERNANDEZ
 Company: Parlee Conseiller, Inc.
 Date: 2026-10-09
 Last edit date: 2026-10-09
-Version: 1.2.0
+Version: 1.3.0
 -->
 
 # Changelog
+
+## 0.1.7 — 2026-10-09
+
+- Added `linux-arm64` release build (native `ubuntu-24.04-arm` runner), requested in issue #3.
 
 ## 0.1.6 — 2026-10-09
 

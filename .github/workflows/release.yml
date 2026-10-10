@@ -23,6 +23,10 @@ jobs:
             target: x86_64-unknown-linux-gnu
             platform: linux-x64
             bin: cloudflare-d1-plugin
+          - os: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
+            platform: linux-arm64
+            bin: cloudflare-d1-plugin
           # Platform keys follow the Tabularis registry convention (darwin-*).
           - os: macos-14
             target: aarch64-apple-darwin
