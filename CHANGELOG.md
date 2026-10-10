@@ -5,10 +5,20 @@ Author: Jose-Jorge HERNANDEZ
 Company: Parlee Conseiller, Inc.
 Date: 2026-10-09
 Last edit date: 2026-10-09
-Version: 1.3.0
+Version: 2.0.0
 -->
 
 # Changelog
+
+## 1.0.0 — 2026-10-09
+
+First stable release.
+
+- Visual EXPLAIN: `explain_query` runs `EXPLAIN QUERY PLAN` and returns a parsed plan tree (works on any host that supports plugin EXPLAIN; `explain` capability enabled). SQLite has no cost model or ANALYZE, so those fields are empty.
+- `PRAGMA` and `EXPLAIN` statements now return their rows in the grid instead of an empty result (they are never wrapped for pagination).
+- Triggers: `get_triggers`, `get_trigger_definition`, `create_trigger`, `drop_trigger` (from `sqlite_master`); `triggers` capability enabled. Timing/event are parsed from the stored `CREATE TRIGGER` SQL.
+- Table/column comments intentionally not implemented: D1 has no comment metadata.
+- Live behaviour against a real D1 database was not exercised in CI (unit tests cover parsing and plan building); EXPLAIN/triggers should be tried once in Tabularis.
 
 ## 0.1.7 — 2026-10-09
 

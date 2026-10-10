@@ -1,9 +1,17 @@
+// File: query.rs
+// Description: Connection, database-listing and execute_query handlers.
+// Author: Jose-Jorge HERNANDEZ
+// Company: Parlee Conseiller, Inc.
+// Date: 2026-06-15
+// Last edit date: 2026-10-09
+// Version: 1.1.0
+
 use serde_json::{json, Value};
 
 use crate::client::{cache_databases, D1Client};
 use crate::coords::ConnectionCoords;
 use crate::error::PluginError;
-use crate::utils::pagination::{has_limit, is_select, paginated_pair};
+use crate::utils::pagination::{has_limit, is_select, paginated_pair, returns_rows};
 
 // ---------------------------------------------------------------------------
 // test_connection
@@ -109,7 +117,8 @@ pub fn execute_query(params: &Value) -> Result<Value, PluginError> {
     let result_set = client.query(&db_id, query, vec![])?;
     let _ = start; // elapsed kept for future telemetry
 
-    if is_select(query) {
+    // PRAGMA / EXPLAIN also return rows, but are never paginated (see above).
+    if returns_rows(query) {
         let (columns, rows) = result_set_to_columns_rows(&result_set);
         let row_count = rows.len() as u64;
         Ok(json!({

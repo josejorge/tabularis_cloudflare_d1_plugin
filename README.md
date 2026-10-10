@@ -15,6 +15,9 @@ Built in Rust. Communicates with the Cloudflare D1 REST API.
 - Create and drop tables and indexes
 - Create, alter, and drop views
 - ER diagram support
+- Visual EXPLAIN (`EXPLAIN QUERY PLAN` shown as a plan tree)
+- Browse, create and drop triggers
+- `PRAGMA` and `EXPLAIN` statements return rows in the SQL editor
 
 ---
 

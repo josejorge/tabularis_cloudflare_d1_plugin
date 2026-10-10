@@ -19,7 +19,7 @@ use std::io::{self, BufRead, Write};
 
 use serde_json::Value;
 
-use handlers::{crud, ddl, metadata, query};
+use handlers::{crud, ddl, explain, metadata, query, triggers};
 use rpc::{internal_err, ok};
 
 fn main() {
@@ -116,7 +116,14 @@ fn dispatch(method: &str, params: &Value) -> Result<Value, error::PluginError> {
         "get_all_columns_batch" => metadata::get_all_columns_batch(params),
         "get_all_foreign_keys_batch" => metadata::get_all_foreign_keys_batch(params),
 
-        // Query execution
+        // Triggers
+        "get_triggers" => triggers::get_triggers(params),
+        "get_trigger_definition" => triggers::get_trigger_definition(params),
+        "create_trigger" => triggers::create_trigger(params),
+        "drop_trigger" => triggers::drop_trigger(params),
+
+        // Query execution / plans
+        "explain_query" => explain::explain_query(params),
         "execute_query" => query::execute_query(params),
 
         // CRUD
