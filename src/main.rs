@@ -91,7 +91,12 @@ fn handle_line(line: &str) -> Option<Value> {
 fn dispatch(method: &str, params: &Value) -> Result<Value, error::PluginError> {
     match method {
         // Lifecycle
-        "initialize" => Ok(Value::Null),
+        // The host sends the user-configured plugin settings here once, before
+        // any other call (older hosts / no settings: the call is simply absent).
+        "initialize" => {
+            coords::apply_settings(&params["settings"]);
+            Ok(Value::Null)
+        }
 
         // Connectivity
         "test_connection" => query::test_connection(params),

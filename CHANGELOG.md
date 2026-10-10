@@ -4,11 +4,17 @@ Description: Release history of the Cloudflare D1 plugin for Tabularis.
 Author: Jose-Jorge HERNANDEZ
 Company: Parlee Conseiller, Inc.
 Date: 2026-10-09
-Last edit date: 2026-10-09
-Version: 2.0.0
+Last edit date: 2026-10-10
+Version: 2.1.0
 -->
 
 # Changelog
+
+## 1.0.1 — 2026-10-10
+
+- Plugin setting **Default Account ID**: when a connection leaves Username blank, this Account ID is used (received via `initialize`). The API token deliberately stays in the connection's Password field, not in plugin settings.
+- Connection-form help box translated (English, Spanish) via `locales/<lang>.json`; English is the fallback. Release zips now include `locales/`.
+- Account ID error message now mentions the plugin setting.
 
 ## 1.0.0 — 2026-10-09
 

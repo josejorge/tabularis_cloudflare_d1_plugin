@@ -1,0 +1,10 @@
+{
+  "title": "Conexión a Cloudflare D1",
+  "usernameLabel": "Usuario",
+  "usernameText": "Tu Account ID de Cloudflare (Dashboard → Workers & Pages, barra lateral derecha). Puede dejarse vacío si defines un Account ID predeterminado en los ajustes del plugin.",
+  "passwordLabel": "Contraseña",
+  "passwordText": "Un token de API de Cloudflare con el permiso “D1 Edit”.",
+  "hostLabel": "Host / Puerto",
+  "hostText": "No se usa — déjalos vacíos.",
+  "tokenLink": "Crear un token de API →"
+}

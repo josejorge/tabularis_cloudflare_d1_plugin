@@ -2,13 +2,22 @@
   "$schema": "https://tabularis.dev/schemas/plugin-manifest.json",
   "id": "cloudflare-d1",
   "name": "Cloudflare D1",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Cloudflare D1 — serverless SQLite databases at the edge",
   "default_port": null,
   "executable": "cloudflare-d1-plugin",
   "default_username": "",
   "color": "#F6821F",
   "icon": "network",
+  "settings": [
+    {
+      "key": "default_account_id",
+      "label": "Default Account ID",
+      "type": "string",
+      "required": false,
+      "description": "Optional fallback Cloudflare Account ID, used when a connection leaves Username blank (Dashboard → Workers & Pages, right sidebar)."
+    }
+  ],
   "capabilities": {
     "schemas": false,
     "views": true,

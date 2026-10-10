@@ -57,7 +57,7 @@ jobs:
           $version = "${env:GITHUB_REF_NAME}" -replace '^v',''
           Copy-Item "target/${{ matrix.target }}/release/${{ matrix.bin }}" .
           $zipName = "cloudflare-d1-${{ matrix.platform }}-$version.zip"
-          Compress-Archive -Path "${{ matrix.bin }}", manifest.json, .tabularium, ui -DestinationPath $zipName -Force
+          Compress-Archive -Path "${{ matrix.bin }}", manifest.json, .tabularium, ui, locales -DestinationPath $zipName -Force
           echo "ZIP_NAME=$zipName" >> $env:GITHUB_ENV
 
       - name: Package (Unix)
@@ -67,7 +67,7 @@ jobs:
           version="${GITHUB_REF_NAME#v}"
           cp "target/${{ matrix.target }}/release/${{ matrix.bin }}" .
           zip_name="cloudflare-d1-${{ matrix.platform }}-${version}.zip"
-          zip -r "$zip_name" "${{ matrix.bin }}" manifest.json .tabularium ui
+          zip -r "$zip_name" "${{ matrix.bin }}" manifest.json .tabularium ui locales
           echo "ZIP_NAME=$zip_name" >> "$GITHUB_ENV"
 
       - name: Attest build provenance

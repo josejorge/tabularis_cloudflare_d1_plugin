@@ -2,7 +2,7 @@
   "$schema": "https://registry.tabularis.dev/manifest.schema.json?kind=driver",
   "id": "cloudflare-d1",
   "name": "Cloudflare D1",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Browse and manage Cloudflare D1 serverless SQLite databases from Tabularis.",
   "category": "integration",
   "kind": "driver",
@@ -19,6 +19,15 @@
   "min_runtime_version": "0.8.15",
   "executable": "cloudflare-d1-plugin",
   "is_builtin": false,
+  "settings": [
+    {
+      "key": "default_account_id",
+      "label": "Default Account ID",
+      "type": "string",
+      "required": false,
+      "description": "Optional fallback Cloudflare Account ID, used when a connection leaves Username blank (Dashboard → Workers & Pages, right sidebar)."
+    }
+  ],
   "ui_extensions": [
     { "slot": "connection-modal.extra_fields", "module": "ui/connection-help.js", "order": 10 }
   ],

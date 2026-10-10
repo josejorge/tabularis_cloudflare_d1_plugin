@@ -3,8 +3,8 @@
 // Author: Jose-Jorge HERNANDEZ
 // Company: Parlee Conseiller, Inc.
 // Date: 2026-10-09
-// Last edit date: 2026-10-09
-// Version: 1.0.0
+// Last edit date: 2026-10-10
+// Version: 1.1.0
 //
 // Hand-written IIFE (no build step). The host runs this source inside
 // `new Function("React", "ReactJSXRuntime", "__TABULARIS_API__", source)` and
@@ -18,11 +18,12 @@ var __tabularis_plugin__ = (function () {
   // Where users create the API token.
   var TOKEN_URL = "https://dash.cloudflare.com/profile/api-tokens";
 
-  // One row of the mapping table: form field -> what to enter.
+  // One row of the mapping table: [i18n key prefix, English label, English text].
+  // The English strings double as defaults when a translation is unavailable.
   var ROWS = [
-    ["Username", "Your Cloudflare Account ID (Dashboard → Workers & Pages, right sidebar)."],
-    ["Password", "A Cloudflare API token with the “D1 Edit” permission."],
-    ["Host / Port", "Not used — leave them empty."],
+    ["username", "Username", "Your Cloudflare Account ID (Dashboard → Workers & Pages, right sidebar). Can be left empty if a default Account ID is set in the plugin settings."],
+    ["password", "Password", "A Cloudflare API token with the “D1 Edit” permission."],
+    ["host", "Host / Port", "Not used — leave them empty."],
   ];
 
   var h = React.createElement;
@@ -51,6 +52,18 @@ var __tabularis_plugin__ = (function () {
 
   function ConnectionHelp(props) {
     var ctx = (props && props.context) || {};
+    // openUrl / usePluginTranslation are part of the host plugin API; guard in
+    // case an older host lacks them.
+    var api = typeof __TABULARIS_API__ !== "undefined" ? __TABULARIS_API__ : null;
+
+    // Hooks must run on every render, so call this before any early return.
+    // Translations come from locales/<lang>.json; defaultValue keeps English
+    // when a key or locale file is missing.
+    var t = api && typeof api.usePluginTranslation === "function" ? api.usePluginTranslation(DRIVER_ID) : null;
+    function tr(key, fallback) {
+      return t ? t(key, { defaultValue: fallback }) : fallback;
+    }
+
     // Only show for this plugin's own connection form.
     if (ctx.driver !== DRIVER_ID) return null;
 
@@ -58,13 +71,11 @@ var __tabularis_plugin__ = (function () {
       return h(
         "tr",
         { key: r[0] },
-        h("td", { style: labelStyle }, r[0]),
-        h("td", { style: { opacity: 0.85 } }, r[1])
+        h("td", { style: labelStyle }, tr(r[0] + "Label", r[1])),
+        h("td", { style: { opacity: 0.85 } }, tr(r[0] + "Text", r[2]))
       );
     });
 
-    // openUrl is part of the host plugin API; guard in case it is absent.
-    var api = typeof __TABULARIS_API__ !== "undefined" ? __TABULARIS_API__ : null;
     var link =
       api && typeof api.openUrl === "function"
         ? h(
@@ -76,14 +87,14 @@ var __tabularis_plugin__ = (function () {
                 api.openUrl(TOKEN_URL);
               },
             },
-            "Create an API token →"
+            tr("tokenLink", "Create an API token →")
           )
         : null;
 
     return h(
       "div",
       { style: boxStyle },
-      h("div", { style: titleStyle }, "Cloudflare D1 connection"),
+      h("div", { style: titleStyle }, tr("title", "Cloudflare D1 connection")),
       h("table", { style: { borderCollapse: "collapse" } }, h("tbody", null, rows)),
       link
     );

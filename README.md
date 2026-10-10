@@ -17,6 +17,8 @@ Built in Rust. Communicates with the Cloudflare D1 REST API.
 - ER diagram support
 - Visual EXPLAIN (`EXPLAIN QUERY PLAN` shown as a plan tree)
 - Browse, create and drop triggers
+- Optional **Default Account ID** in the plugin settings (gear icon), used when a connection leaves Username blank
+- English and Spanish help text in the connection form
 - `PRAGMA` and `EXPLAIN` statements return rows in the SQL editor
 
 ---
@@ -42,6 +44,7 @@ plugins/
 └── cloudflare-d1/
     ├── .tabularium            (manifest.json is a legacy fallback)
     ├── ui/connection-help.js
+    ├── locales/               (en.json, es.json)
     └── cloudflare-d1-plugin   (or .exe on Windows)
 ```
 
